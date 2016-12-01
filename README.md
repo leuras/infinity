@@ -7,6 +7,7 @@ Include the script plugin from `dist` folder and jQuery dependency:
 ```html
 <script language="javascript" type="text/javascript" src="jquery.min.js"></script>
 <script language="javascript" type="text/javascript" src="dist/infinity.min.js"></script>
+```
 
 ### Example with HTML Response
 
@@ -21,6 +22,7 @@ var infinity = $.infinity({
 		// ...
 	}
 }).go();
+```
 
 ### Example with JSON Response
 
@@ -35,6 +37,7 @@ var infinity = $.infinity({
 		// ...
 	}
 }).go();
+```
 
 ### Use a HTML button to show more results
 
@@ -44,6 +47,7 @@ var infinity = $.infinity({...}).go();
 $('button').click(function(e){
 	infinity.more();
 });
+```
 
 ### Use the window scroll event to show more results
 
@@ -53,6 +57,7 @@ $(window).scroll(function() {
         infinity.more();
     }
 });
+```
 
 ## Notes
 
