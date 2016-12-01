@@ -1,6 +1,12 @@
-// Infinity Page Plugin
-// version 1.0, Apr 06th, 2016
-// by Fernando Libório
+/**
+ * Infinity Page Plugin v1.0.0
+ * https://github.com/leuras/infinity
+ *
+ * Copyright (c) 2016 Fernando Pereira Libório
+ * Released under the MIT license
+ *
+ * Apr 06th, 2016
+ */
 
 (function($) {
 
