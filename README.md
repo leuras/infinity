@@ -59,6 +59,20 @@ $(window).scroll(function() {
 });
 ```
 
+### Options & Events
+
+```js
+defaults = {
+    url: '',					// Target URL
+    dataType: 'html',			// The type of returned data requested. Values: `json` and `html`.
+    offset: 0,					// Initial result
+    limit: 10,					// Amount of results per page
+    fail: function() {},		// Triggered when the request fails
+    success: function() {},		// Triggered on every successful request
+    done: function() {}			// Triggered when the end of your list (records) has been reached
+}
+```
+
 ## Notes
 
 This plugin requires jQuery v2.1+
