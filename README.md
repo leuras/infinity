@@ -13,14 +13,14 @@ Include the script plugin from `dist` folder and jQuery dependency:
 
 ```js
 var infinity = $.infinity({
-	url: 'product/list/',
-	dataType: 'html',
-	success: function (html) {
+    url: 'product/list/',
+    dataType: 'html',
+    success: function (html) {
         // ...
-	},
-	done: function () {
-		// ...
-	}
+    },
+    done: function () {
+        // ...
+    }
 }).go();
 ```
 
@@ -28,14 +28,14 @@ var infinity = $.infinity({
 
 ```js
 var infinity = $.infinity({
-	url: 'product/list/',
-	dataType: 'json',
-	success: function (result) {
+    url: 'product/list/',
+    dataType: 'json',
+    success: function (result) {
         // ...
-	},
-	done: function () {
-		// ...
-	}
+    },
+    done: function () {
+        // ...
+    }
 }).go();
 ```
 
@@ -45,7 +45,7 @@ var infinity = $.infinity({
 var infinity = $.infinity({...}).go();
 
 $('button').click(function(e){
-	infinity.more();
+    infinity.more();
 });
 ```
 
@@ -53,15 +53,15 @@ $('button').click(function(e){
 
 ```js
 var infinity = $.infinity({
-	url: 'product/list/',
-	dataType: 'json',
+    url: 'product/list/',
+    dataType: 'json',
   autoScroll: true, // default value is true
-	success: function (result) {
+    success: function (result) {
         // ...
-	},
-	done: function () {
-		// ...
-	}
+    },
+    done: function () {
+        // ...
+    }
 }).go();
 ```
 
@@ -69,14 +69,14 @@ var infinity = $.infinity({
 
 ```js
 defaults = {
-    url: '/api/${pageIndex}/${limit}/',		// Target URL
-    dataType: 'html',	  // The type of returned data requested. Values: `json` and `html`.
-    offset: 0,					// Initial result
+    url: '/api/${pageIndex}/${limit}/',        // Target URL
+    dataType: 'html',      // The type of returned data requested. Values: `json` and `html`.
+    offset: 0,                    // Initial result
     autoScroll: true,   // Enable load more results when user scroll the window
-    limit: 10,					// Amount of results per page
-    fail: function() {},		// Triggered when the request fails
-    success: function() {},		// Triggered on every successful request
-    done: function() {}			// Triggered when the end of your list (records) has been reached
+    limit: 10,                    // Amount of results per page
+    fail: function() {},        // Triggered when the request fails
+    success: function() {},        // Triggered on every successful request
+    done: function() {}            // Triggered when the end of your list (records) has been reached
 }
 ```
 
