@@ -13,14 +13,14 @@ Include the script plugin from `dist` folder and jQuery dependency:
 
 ```js
 var infinity = $.infinity({
-	url: 'product/list/',
-	dataType: 'html',
-	success: function (html) {
+    url: 'product/list/',
+    dataType: 'html',
+    success: function (html) {
         // ...
-	},
-	done: function () {
-		// ...
-	}
+    },
+    done: function () {
+        // ...
+    }
 }).go();
 ```
 
@@ -28,14 +28,14 @@ var infinity = $.infinity({
 
 ```js
 var infinity = $.infinity({
-	url: 'product/list/',
-	dataType: 'json',
-	success: function (result) {
+    url: 'product/list/',
+    dataType: 'json',
+    success: function (result) {
         // ...
-	},
-	done: function () {
-		// ...
-	}
+    },
+    done: function () {
+        // ...
+    }
 }).go();
 ```
 
@@ -45,33 +45,44 @@ var infinity = $.infinity({
 var infinity = $.infinity({...}).go();
 
 $('button').click(function(e){
-	infinity.more();
+    infinity.more();
 });
 ```
 
 ### Use the window scroll event to show more results
 
 ```js
-$(window).scroll(function() {
-    if (($(window).scrollTop() + $(window).height()) == $(document).height()) {
-        infinity.more();
+var infinity = $.infinity({
+    url: 'product/list/',
+    dataType: 'json',
+  autoScroll: true, // default value is true
+    success: function (result) {
+        // ...
+    },
+    done: function () {
+        // ...
     }
-});
+}).go();
 ```
 
 ### Options & Events
 
 ```js
 defaults = {
-    url: '',					// Target URL
-    dataType: 'html',			// The type of returned data requested. Values: `json` and `html`.
-    offset: 0,					// Initial result
-    limit: 10,					// Amount of results per page
-    fail: function() {},		// Triggered when the request fails
-    success: function() {},		// Triggered on every successful request
-    done: function() {}			// Triggered when the end of your list (records) has been reached
+    url: '/api/${pageIndex}/${limit}/',        // Target URL
+    dataType: 'html',      // The type of returned data requested. Values: `json` and `html`.
+    offset: 0,                    // Initial result
+    autoScroll: true,   // Enable load more results when user scroll the window
+    limit: 10,                    // Amount of results per page
+    fail: function() {},        // Triggered when the request fails
+    success: function() {},        // Triggered on every successful request
+    done: function() {}            // Triggered when the end of your list (records) has been reached
 }
 ```
+
+### Example running 
+
+You can see this plugin runing on [JSFiddle](https://jsfiddle.net/edgardleal/wjeekya9/)
 
 ## Notes
 

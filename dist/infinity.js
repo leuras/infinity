@@ -11,24 +11,32 @@
 (function($) {
 
     $.infinity = function(options) {
-
         var defaults = {
             url: '',
             dataType: 'html',
+            autoScroll: true,
             offset: 0,
+            method: 'GET',
             limit: 10,
             fail: function() {},
             success: function() {},
-            done: function() {}
+            done: function() {},
+            pageIndex: 0
         }
 
         var _offset;
         var plugin = this;
 
-        plugin.settings = {}
+        plugin.settings = {};
+        
         plugin.init = function() {
             plugin.settings = $.extend({}, defaults, options);
             _offset = plugin.settings.offset;
+            plugin.urlSufixTemplate = new Function("limit", 
+              "offset", 
+              "pageIndex",
+              "return `" + plugin.settings.url + "`;");
+            _setupAutoScroll();
         }
 
         plugin.go = function(url) {
@@ -46,14 +54,27 @@
             return this;
         };
 
+        var _setupAutoScroll = function(){
+            if(plugin.settings.autoScroll === false) {
+                return this;
+            }
+            $(window).scroll(function() {
+                if (($(window).scrollTop() + $(window).height()) ===
+                    $(document).height()) {
+                    plugin.more();
+               }
+            });
+            return this;
+        };
         var _doSearch = function() {
-
-            var url = plugin.settings.url + '/';
-            url = url.replace(/(\/\/)$/, '/0/');
-            url+= (plugin.settings.limit + 1) + '/' + plugin.settings.offset
-
+            plugin.settings.pageIndex += 1;
+            var url = plugin.urlSufixTemplate.call(plugin, 
+               plugin.settings.limit,
+               plugin.settings.offset,
+               plugin.settings.pageIndex);
+            
             $.ajax({
-                type: 'GET',
+                type: plugin.settings.method,
                 url :  url,
                 dataType: plugin.settings.dataType
             })
