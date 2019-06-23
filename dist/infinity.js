@@ -1,5 +1,5 @@
 /**
- * Infinity Page Plugin v1.0.0
+ * Infinity Page Plugin v2.0.0
  * https://github.com/leuras/infinity
  *
  * Copyright (c) 2016 Fernando Pereira Libório
@@ -10,104 +10,100 @@
 
 (function($) {
 
-    $.infinity = function(options) {
-        var defaults = {
+    $.infinity = (options) => {
+
+        let defaults = {
             url: '',
             dataType: 'html',
-            autoScroll: true,
-            offset: 0,
-            method: 'GET',
-            limit: 10,
-            fail: function() {},
-            success: function() {},
-            done: function() {},
-            pageIndex: 0
+            auto: false,
+            first: 0,
+            count: 10,
+            fail: undefined,
+            success: undefined,
+            done: undefined
         }
 
-        var _offset;
-        var plugin = this;
+        let _firstCall = true
 
-        plugin.settings = {};
-        
-        plugin.init = function() {
-            plugin.settings = $.extend({}, defaults, options);
-            _offset = plugin.settings.offset;
-            plugin.urlSufixTemplate = new Function("limit", 
-              "offset", 
-              "pageIndex",
-              "return `" + plugin.settings.url + "`;");
-            _setupAutoScroll();
+        this.go = (url) => {
+            _firstCall = false
+
+            this.settings.url = url || this.settings.url             
+            this._search()
+            
+            return this
         }
 
-        plugin.go = function(url) {
-            plugin.settings.offset = _offset;
-            if (url !== undefined) {
-                plugin.settings.url = url;
-            }
-            _doSearch();
-            return this;
-        };
+        this.more = () => {
 
-        plugin.more = function() {
-            plugin.settings.offset += plugin.settings.limit;
-            _doSearch();
-            return this;
-        };
+            this.settings.first += this.settings.count;
+            this._search()
+            
+            return this
+        }
 
-        var _setupAutoScroll = function(){
-            if(plugin.settings.autoScroll === false) {
-                return this;
-            }
-            $(window).scroll(function() {
-                if (($(window).scrollTop() + $(window).height()) ===
-                    $(document).height()) {
-                    plugin.more();
-               }
-            });
-            return this;
-        };
-        var _doSearch = function() {
-            plugin.settings.pageIndex += 1;
-            var url = plugin.urlSufixTemplate.call(plugin, 
-               plugin.settings.limit,
-               plugin.settings.offset,
-               plugin.settings.pageIndex);
+        this._search = () => {
+            
+            let url = this.settings.url
+                .replace('{first}', this.settings.first)
+                .replace('{count}', (this.settings.count + 1))
             
             $.ajax({
-                type: plugin.settings.method,
-                url :  url,
-                dataType: plugin.settings.dataType
+                url : url,
+                dataType: this.settings.dataType
             })
-            .done(function(r,c,h) {
+            .fail((request, status, error) => {
+                if (typeof this.settings.error !== 'undefined') {
+                    this.settings.error.call(this, request, status, error);
+                }
+            })
+            .done((result, status, request) => {
 
-                var hasMore = true;
-                if (plugin.settings.dataType === 'json') {
-                    if ($.isArray(r) && (r.length > plugin.settings.limit) ) {
-                        hasMore = true;
-                        r.pop();
-                    } else {
-                        hasMore = false;
+                let data = []
+                let hasMore = true
+
+                if ($.isArray(result)) {
+                    data = result
+                } else if ($.isArray(result.data)) {
+                    data = result.data
+                }
+
+                if (this.settings.dataType === 'json') {
+                    hasMore = (data.length > this.settings.count) ? true : false
+                    
+                    if (hasMore) {
+                        data.pop()
                     }
                 }
 
-                if ( $.isFunction( plugin.settings.success ) ) {
-                    plugin.settings.success.call(this, r, c, h);
+                if (typeof this.settings.success !== 'undefined') {
+                    this.settings.success.call(this, data, status, request)
                 }
 
-                if ( !hasMore && $.isFunction( plugin.settings.done ) ) {
-                    plugin.settings.done.call(this);
+                if (typeof this.settings.done !== 'undefined' && ! hasMore) {
+                    this.settings.done.call(this)
                 }
             })
-            .fail(function(r) {
-                if ( $.isFunction( plugin.settings.error ) ) {
-                    plugin.settings.error.call(this, r, c, h);
-                }
-            });
         }
 
-        plugin.init();
+        this.settings = $.extend({}, defaults, options)
 
-        return plugin;
+        if (this.settings.auto === true) {
+            
+            let $window = $(window)
+
+            $window.scroll(() => {
+                if (($window.scrollTop() + $window.height()) === $(document).height()) {
+                    if (_firstCall) {
+                        this.go()
+                    } else {
+                        this.more()
+                    }    
+                }
+            })
+        }
+
+        return this
     }
 
 })(jQuery);

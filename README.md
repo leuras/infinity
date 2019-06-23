@@ -1,19 +1,19 @@
-# Infinity Page jQuery Plugin
+# jQuery Infinity Page Plugin
 
 ## Usage
 
-Include the script plugin from `dist` folder and jQuery dependency: 
+Include the script plugin from `dist` folder in your HTML file: 
 
 ```html
-<script language="javascript" type="text/javascript" src="jquery.min.js"></script>
-<script language="javascript" type="text/javascript" src="dist/infinity.min.js"></script>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script type="text/javascript" src="dist/infinity.min.js"></script>
 ```
 
 ### Example with HTML Response
 
 ```js
-var infinity = $.infinity({
-    url: 'product/list/',
+let infinity = $.infinity({
+    url: 'app/users/{first}/{count}',
     dataType: 'html',
     success: function (html) {
         // ...
@@ -27,8 +27,8 @@ var infinity = $.infinity({
 ### Example with JSON Response
 
 ```js
-var infinity = $.infinity({
-    url: 'product/list/',
+let infinity = $.infinity({
+    url: 'app/users/{first}/{count}',
     dataType: 'json',
     success: function (result) {
         // ...
@@ -42,7 +42,7 @@ var infinity = $.infinity({
 ### Use a HTML button to show more results
 
 ```js
-var infinity = $.infinity({...}).go();
+let infinity = $.infinity({...}).go();
 
 $('button').click(function(e){
     infinity.more();
@@ -52,10 +52,27 @@ $('button').click(function(e){
 ### Use the window scroll event to show more results
 
 ```js
-var infinity = $.infinity({
-    url: 'product/list/',
+let infinity = $.infinity({
+    url: 'app/users/{first}/{count}',
     dataType: 'json',
-  autoScroll: true, // default value is true
+    auto: true,
+    success: function (result) {
+        // ...
+    },
+    done: function () {
+        // ...
+    }
+}).go();
+```
+
+### Using QueryString
+
+```js
+let infinity = $.infinity({
+    url: 'app/users?offset={first}&per_page={count}&other=value',
+    dataType: 'json',
+    first: 0,
+    count: 5,
     success: function (result) {
         // ...
     },
@@ -67,22 +84,16 @@ var infinity = $.infinity({
 
 ### Options & Events
 
-```js
-defaults = {
-    url: '/api/${pageIndex}/${limit}/',        // Target URL
-    dataType: 'html',      // The type of returned data requested. Values: `json` and `html`.
-    offset: 0,                    // Initial result
-    autoScroll: true,   // Enable load more results when user scroll the window
-    limit: 10,                    // Amount of results per page
-    fail: function() {},        // Triggered when the request fails
-    success: function() {},        // Triggered on every successful request
-    done: function() {}            // Triggered when the end of your list (records) has been reached
-}
-```
-
-### Example running 
-
-You can see this plugin runing on [JSFiddle](https://jsfiddle.net/edgardleal/wjeekya9/)
+|Name|Type|Default|Description
+|---|---|---|---|
+|url|string||A string containing the target URL.|
+|auto|boolean|false|Lets load more results when the user scrolls down the window.|
+|dataType|string|`html`|The type of returned data. Possible values are `json` or `html`.|
+|first|integer|0|The first result index. Must be present in target URL through keyword `{first}`.|
+|count|integer|10|Amount of results per page. Must be present in target URL through keyword `{count}`.|
+|done|function||Triggered when the end of your list (records) has been reached.|
+|fail|function||Triggered when the request fails.|
+|success|function||Triggered on every successful request.|
 
 ## Notes
 
