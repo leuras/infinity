@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    
+    <title>JSON Response</title>
+</head>
+
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="../dist/infinity.min.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+
+        let infinity = $.infinity({
+            url: 'https://reqres.in/api/users?page={first}&per_page={count}',
+            dataType: 'json',
+            auto: true,
+            first: 0,
+            count: 3,
+            success: function (response) {
+
+                let row = $('<div/>', {'class': 'row'})
+
+                response.forEach(elm => {
+                    
+                    let col   = $('<div/>', {'class': 'col-md-3'})
+                    let card  = $('<div/>', {'class': 'card mb-4 shadow-sm'})
+                    let image = $('<img/>', {'class': 'card-img-top', 'src': elm.avatar})
+                    let body  = $('<div/>', {'class': 'card-body'})
+                    let label = $('<p/>', {'class': 'card-text text-center', 'text': elm.first_name})
+                    
+                    body.append(label)
+                    
+                    card.append(image)
+                    card.append(body)
+
+                    col.append(card)
+                    row.append(col)
+                })
+
+                $('.profiles').append(row)
+            },
+            done: function () {
+                alert('There are no more user profiles.')      
+            }
+        })
+
+    })
+</script>
+
+<body>
+    
+    <div class="container mt-5 profiles">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="card mb-4 shadow-sm">
+                    <img class="card-img-top" src="https://picsum.photos/128?random=1" />
+                    <div class="card-body">
+                        <p class="card-text">Aline Isadora da Cruz</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card mb-4 shadow-sm">
+                    <img class="card-img-top" src="https://picsum.photos/128?random=2" />
+                    <div class="card-body">
+                        <p class="card-text">Chris E Benedict</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card mb-4 shadow-sm">
+                    <img class="card-img-top" src="https://picsum.photos/128?random=3" />
+                    <div class="card-body">
+                        <p class="card-text">Lisa R Baumgardner</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-3">
+                <div class="card mb-4 shadow-sm">
+                    <img class="card-img-top" src="https://picsum.photos/128?random=4" />
+                    <div class="card-body">
+                        <p class="card-text">Diane P Asaro</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card mb-4 shadow-sm">
+                    <img class="card-img-top" src="https://picsum.photos/128?random=5" />
+                    <div class="card-body">
+                        <p class="card-text">Thomas B Moore</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card mb-4 shadow-sm">
+                    <img class="card-img-top" src="https://picsum.photos/128?random=6" />
+                    <div class="card-body">
+                        <p class="card-text">Elizabeth C Tucker</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    
+</body>
+
+</html>
