@@ -17,6 +17,7 @@
             dataType: 'html',
             auto: false,
             first: 0,
+            page: 0,
             count: 10,
             fail: undefined,
             success: undefined,
@@ -37,6 +38,7 @@
         this.more = () => {
 
             this.settings.first += this.settings.count;
+            this.settings.page++
             this._search()
             
             return this
@@ -46,6 +48,7 @@
             
             let url = this.settings.url
                 .replace('{first}', this.settings.first)
+                .replace('{page}', this.settings.page)
                 .replace('{count}', (this.settings.count + 1))
             
             $.ajax({
@@ -59,21 +62,25 @@
             })
             .done((result, status, request) => {
 
-                let data = []
+                let data = undefined
                 let hasMore = true
-
-                if ($.isArray(result)) {
-                    data = result
-                } else if ($.isArray(result.data)) {
-                    data = result.data
-                }
-
+                
                 if (this.settings.dataType === 'json') {
+                    
+                    if ($.isArray(result)) {
+                        data = result
+                    } else if ($.isArray(result.data)) {
+                        data = result.data
+                    }
+                    
                     hasMore = (data.length > this.settings.count) ? true : false
                     
                     if (hasMore) {
                         data.pop()
                     }
+
+                } else if (this.settings.dataType === 'html') {
+                    data = result
                 }
 
                 if (typeof this.settings.success !== 'undefined') {

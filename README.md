@@ -84,16 +84,17 @@ let infinity = $.infinity({
 
 ### Options & Events
 
-|Name|Type|Default|Description
-|---|---|---|---|
-|url|string||A string containing the target URL.|
-|auto|boolean|false|Lets load more results when the user scrolls down the window.|
-|dataType|string|`html`|The type of returned data. Possible values are `json` or `html`.|
-|first|integer|0|The first result index. Must be present in target URL through keyword `{first}`.|
-|count|integer|10|Amount of results per page. Must be present in target URL through keyword `{count}`.|
-|done|function||Triggered when the end of your list (records) has been reached.|
-|fail|function||Triggered when the request fails.|
-|success|function||Triggered on every successful request.|
+|Name|Type|Default|Required|Description
+|---|---|---|---|---|
+|url|string||true|A string containing the target URL.|
+|auto|boolean|false|false|Lets load more results when the user scrolls down the window.|
+|dataType|string|`html`|true|The type of returned data. Possible values are `json` or `html`.|
+|first|integer|0|false|The initial offset number. Must be present in target URL through keyword `{first}`.|
+|page|integer|0|false|The index number to the first page. Must be present in target URL through keyword `{page}`.|
+|count|integer|10|false|Amount of results per page. Must be present in target URL through keyword `{count}`.|
+|done|function||false|Triggered when the end of your list (records) has been reached.|
+|error|function||false|Triggered when the request fails.|
+|success|function||false|Triggered on every successful request.|
 
 ## Notes
 
