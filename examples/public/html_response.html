@@ -17,15 +17,12 @@
 <script type="text/javascript">
     $(document).ready(function(){
 
-        let infinity = $.infinity({
-            url: 'posts.html?offset={first}&limit={count}',
+        $.infinity({
+            url: 'posts.html',
             dataType: 'html',
             auto: true,
             success: function (html) {
                 $('.content').append(html)
-            },
-            done: function () {
-                
             }
         }).go()
     })
@@ -36,7 +33,8 @@
     <div class="container mt-5">
 
         <h1>HTML Response Example</h1>
-        <p class="lead">This is a simple example that demonstrates how to work with HTML responses using the infinity plugin.</p>
+        <p class="lead">This example shows how to work with HTML responses using the infinity plugin. 
+            <br/>For this demonstration, we don't have any of the usual paging parameters ({first}, {page} or {count}), so the page is really infinite.</p>
 
         <div class="row justify-content-center">
             <div class="my-3 p-3 bg-white rounded shadow-sm">

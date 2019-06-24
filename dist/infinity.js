@@ -17,7 +17,7 @@
             dataType: 'html',
             auto: false,
             first: 0,
-            page: 0,
+            page: 1,
             count: 10,
             fail: undefined,
             success: undefined,

@@ -2,16 +2,80 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>HTML Button</title>
+    
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    
+    <title>Show More</title>
 </head>
 
-<body>
-    
-</body>
-
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-<script type="text/javascript" src="../dist/infinity.min.js"></script>
+<script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/infinity.min.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+
+        let infinity = $.infinity({
+            url: 'https://reqres.in/api/users?page={page}&per_page={count}',
+            dataType: 'json',
+            page: 1,
+            count: 3,
+            auto: false,
+            success: function (response) {
+
+                response.forEach(elm => {
+
+                    let row = $('<tr/>')
+                    
+                    row.append($('<th/>', {'scope': 'row', 'text': elm.id}))
+                        .append($('<td/>', {'text': elm.first_name}))
+                        .append($('<td/>', {'text': elm.last_name}))
+                        .append($('<td/>', {'text': elm.email}))
+                    
+                    $('tbody').append(row)
+                })
+            },
+            done: function () {
+                $('.btn').hide()
+            }
+        }).go()
+
+        $('.btn').click(function () {
+            infinity.more()
+        })
+    })
+</script>
+
+<body>
+
+    <div class="container mt-5">
+        <h1>Show More Example</h1>
+        <p class="lead">This example demonstrates how to show more results dynamically using an HTML button.</p>
+    </div>
+
+    <div class="bg-light py-5">
+        <div class="container">
+            <div class="row justify-content-center">
+                <!-- begin: employees -->
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">First Name</th>
+                            <th scope="col">Last Name</th>
+                            <th scope="col">email</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+                <!-- end: employees -->
+            </div>
+
+            <button type="button" class="btn btn-outline-primary btn-lg btn-block">Show more</button>
+        </div>
+    </div>
+</body>
 
 </html>
